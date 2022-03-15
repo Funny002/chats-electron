@@ -27,8 +27,17 @@
       "@v/*": [
         "src/views/*"
       ],
+      "@u/*": [
+        "src/utils/*"
+      ],
+      "@p/*": [
+        "src/package/*"
+      ],
       "@c/*": [
         "src/components/*"
+      ],
+      "@s/*": [
+        "src/assets/scss/*"
       ]
     }
   },

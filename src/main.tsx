@@ -1,11 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from '@v/app';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ReactDom from 'react-dom';
+import { ViewLogin } from '@v/Login';
+import { ViewHome } from '@v/Home';
+import 'antd/dist/antd.css';
+import '@s/base.css';
 
-ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+ReactDom.render(
+  (<BrowserRouter>
+    <Routes>
+      <Route path="/login" element={<ViewLogin />} />
+      <Route path="/" element={<ViewHome />} />
+    </Routes>
+  </BrowserRouter>),
   document.getElementById('root'),
 );

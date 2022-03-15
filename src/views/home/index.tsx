@@ -1,5 +1,12 @@
-function Home() {
-  return (<div className="Home">Home</div>);
+import { Component } from 'react';
+
+interface Props {
 }
 
-export default Home;
+export class ViewHome extends Component<Props> {
+  render() {
+    return (<div>
+      Home
+    </div>);
+  }
+}
