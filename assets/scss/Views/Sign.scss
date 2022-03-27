@@ -1,0 +1,35 @@
+.app-sign {
+  display: flex;
+  flex-direction: column;
+  -webkit-app-region: drag;
+
+  &__header {
+    display: flex;
+    padding-left: 8px;
+
+    &-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    &-image {
+      width: 16px;
+      height: 16px;
+
+      > img {
+        width: 100%;
+        display: block;
+        line-height: 0;
+        background-size: contain;
+      }
+    }
+
+    &-title {
+      margin: 0 0 0 4px !important;
+    }
+  }
+
+  &__body {
+    padding: 0 20px !important;
+  }
+}

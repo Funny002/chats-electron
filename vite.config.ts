@@ -1,6 +1,6 @@
-import Config from './config';
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { port } from './config';
 import { resolve } from 'path';
 
 // https://vitejs.dev/config/
@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [react()],
   publicDir: './public',
   server: {
-    port: Config.port,
+    port: port,
     proxy: {
       '/api': {
         changeOrigin: true,
@@ -20,15 +20,13 @@ export default defineConfig({
       },
     },
   },
-
   resolve: {
     alias: {
-      '@': resolve(__dirname + '/src'),
-      '@v': resolve(__dirname + '/src/views'),
-      '@u': resolve(__dirname + '/src/utils'),
-      '@p': resolve(__dirname + '/src/package'),
-      '@c': resolve(__dirname + '/src/components'),
-      '@s': resolve(__dirname + '/src/assets/scss'),
+      '@api': resolve(__dirname + '/api'),
+      '@app': resolve(__dirname + '/src'),
+      '@utils': resolve(__dirname + '/utils'),
+      '@scss': resolve(__dirname + '/assets/scss'),
+      '@module': resolve(__dirname + '/components'),
     },
   },
 });

@@ -21,28 +21,29 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": [
+      "@api/*": [
+        "api/*"
+      ],
+      "@app/*": [
         "src/*"
       ],
-      "@v/*": [
-        "src/views/*"
+      "@utils/*": [
+        "utils/*"
       ],
-      "@u/*": [
-        "src/utils/*"
+      "@scss/*": [
+        "assets/scss/*"
       ],
-      "@p/*": [
-        "src/package/*"
-      ],
-      "@c/*": [
-        "src/components/*"
-      ],
-      "@s/*": [
-        "src/assets/scss/*"
+      "@module/*": [
+        "components/*"
       ]
     }
   },
   "include": [
-    "src"
+    "api",
+    "src",
+    "config",
+    "utils",
+    "components"
   ],
   "references": [
     {
