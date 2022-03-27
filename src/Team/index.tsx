@@ -88,7 +88,7 @@ export class Team extends Component
         <Input.Group style={{ paddingLeft: '10px' }}>
           <AutoComplete notFoundContent={
             <Empty style={{ marginTop: '20px' }} image={Empty.PRESENTED_IMAGE_SIMPLE} />
-          } defaultOpen allowClear style={{ width: 'calc(100% - 30px)' }}>
+          } allowClear style={{ width: 'calc(100% - 30px)' }}>
             <Input size="middle" prefix={<SearchOutlined />} placeholder="好友/群/组" />
           </AutoComplete>
           <Button type="text"><PlusOutlined /></Button>
