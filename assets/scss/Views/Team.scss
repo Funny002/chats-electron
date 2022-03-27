@@ -1,0 +1,115 @@
+.W-team {
+  user-select: none;
+
+  &__header {
+    padding: 10px 0;
+    border-bottom: 1px solid #e1e1e1;
+  }
+
+  &__body {
+    height: calc(100% - 53px);
+    background-color: #ffffff;
+
+    .ant-empty {
+      margin: 5px 0 0;
+    }
+
+    .ant-list-empty-text {
+      padding: 0;
+    }
+
+    .ant-collapse {
+      &-arrow {
+        right: 10px !important;
+      }
+
+      &-header {
+        font-size: 12px;
+        font-weight: bold;
+        //border-bottom: 1px solid #e1e1e1;
+        padding: 10px 34px 10px 10px !important;
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
+      }
+
+      &-content-box {
+        padding: 0 !important;
+      }
+    }
+
+    .ant-tabs {
+      height: 100%;
+
+      &-nav {
+        margin-bottom: 0;
+
+        &::before {
+          border-bottom-color: #e1e1e1;
+        }
+      }
+
+      &-content-holder {
+        overflow-y: auto;
+        height: calc(100% - 38px);
+
+        &::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          cursor: pointer;
+          border-radius: 6px;
+          background-color: #dddddd;
+        }
+      }
+    }
+
+    .user-list {
+      padding: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &__body {
+        padding-left: 10px;
+        width: calc(100% - 40px);
+      }
+
+      &__title {
+        height: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      &__name {
+        flex: 1 1 auto;
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      &__date {
+        flex: 0 0 auto;
+        color: #999999;
+        font-size: 10px;
+        padding-left: 5px;
+      }
+
+      &__message {
+        color: #999999;
+        font-size: 10px;
+        overflow: hidden;
+        line-height: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}

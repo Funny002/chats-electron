@@ -1,5 +1,5 @@
 import { setBoxSize } from '@utils/tools';
-import '@scss/Views/Home.scss';
+import '@scss/Views/HomeNav.scss';
 import { LoginOutlined, GithubOutlined, UserOutlined, HomeOutlined, CommentOutlined, SlidersOutlined, TeamOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
@@ -18,7 +18,7 @@ export const HomeNav = () => {
   const routerPush = useNavigate();
 
   const [state, setState] = useState({
-    iconName: 'home',
+    iconName: location.pathname.slice(1) || 'home',
   });
 
   const onIconClick = (key: string) => () => {

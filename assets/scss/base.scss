@@ -2,6 +2,7 @@
   top: 50%;
   left: 50%;
   z-index: 1;
+  color: #282c34;
   position: fixed;
   overflow: hidden;
   border-radius: 4px;
@@ -10,6 +11,7 @@
   width: var(--box-width, 100vw);
   height: var(--box-height, 100vh);
   transform: translate(-50%, -50%);
+  transition: width .3s, height .3s;
 
   > * {
     width: 100%;
