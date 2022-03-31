@@ -21,7 +21,7 @@ export const HomeNav = () => {
     iconName: location.pathname.slice(1) || 'home',
   });
 
-  const onIconClick = (key: string) => () => {
+  const onIconClick = (key: string) => {
     if (state.iconName !== key) {
       routerPush(`/${key}`, { replace: true });
       setState({ iconName: key });
@@ -39,7 +39,7 @@ export const HomeNav = () => {
   return <div className="app-home">
     <div className="app-home__nav">
 
-      <div onClick={onIconClick('user')} style={{ cursor: 'pointer' }}>
+      <div onClick={() => onIconClick('user')} style={{ cursor: 'pointer' }}>
         <Avatar className="app-home__nav-avatar" size={40} icon={<UserOutlined />} />
       </div>
 
@@ -47,7 +47,7 @@ export const HomeNav = () => {
         {Object.keys(listData).map(key => {
           return (<div
             key={key}
-            onClick={onIconClick(key)}
+            onClick={() => onIconClick(key)}
             className={'app-home__nav-item' + (state.iconName === key ? ' active' : '')}
           >{listData[key].render()}</div>);
         })}
@@ -57,7 +57,7 @@ export const HomeNav = () => {
     </div>
 
     <div className="app-home__body">
-      <Outlet />
+      <Outlet context={{ onIconClick }} />
     </div>
 
   </div>;

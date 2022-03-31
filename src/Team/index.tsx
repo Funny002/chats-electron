@@ -4,7 +4,8 @@ import { setBoxSize } from '@utils/tools';
 import { Avatar, Button, Collapse, Empty, Input, AutoComplete, List, Tabs } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 
-interface ListItem {
+export interface ListItem {
+  uuid: string;
   name: string;
   date: string;
   sort?: number;
@@ -41,16 +42,16 @@ export class Team extends Component
         has: 'asdasczx',
         sort: 2,
         childList: [
-          { name: '好友 1', date: '2024/12/5', avatar: '', message: '个性说明。' },
-          { name: '好友 2', date: '2024/12/6', avatar: '', message: '个性说明。' },
+          { uuid: '', name: '好友 1', date: '2024/12/5', avatar: '', message: '个性说明。' },
+          { uuid: '', name: '好友 2', date: '2024/12/6', avatar: '', message: '个性说明。' },
         ],
       }, {
         tag: '测试分组 - 2',
         has: 'asdasx',
         sort: 1,
         childList: [
-          { name: '好友 1', note: '备注', date: '2024/12/5', avatar: '', message: '个性说明。' },
-          { name: '好友 2', note: '备注 - 2', date: '2024/12/6', avatar: '', message: '个性说明。' },
+          { uuid: '', name: '好友 1', note: '备注', date: '2024/12/5', avatar: '', message: '个性说明。' },
+          { uuid: '', name: '好友 2', note: '备注 - 2', date: '2024/12/6', avatar: '', message: '个性说明。' },
         ],
       }, {
         tag: '默认分组',

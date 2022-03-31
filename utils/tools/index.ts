@@ -33,3 +33,5 @@ export const Platform = (navigator => {
 export const setBoxSize = (options: { width?: string; height?: string } = {}) => {
   document.body.style.cssText = `--box-width: ${options.width || '100vw'}; --box-height: ${options.height || '100vh'};`;
 };
+
+export const limitSize = (value: number, min = -Infinity, max = Infinity) => Math.min(Math.max(value, min), max);

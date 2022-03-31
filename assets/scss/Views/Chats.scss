@@ -1,0 +1,86 @@
+.W-chats {
+  display: flex;
+  background-color: #fafafa;
+
+  &__nav {
+    z-index: 1;
+    flex: 0 0 auto;
+    min-width: 60px;
+    max-width: 250px;
+    overflow-y: auto;
+    user-select: none;
+    overflow-x: hidden;
+    background-color: #ffffff;
+  }
+
+  &__nav-line {
+    width: 1px;
+    z-index: 2;
+    flex: 0 0 auto;
+    overflow: hidden;
+    cursor: col-resize;
+    position: relative;
+    transition: width .1s;
+    background-color: #eeeeee;
+
+    &:hover {
+      width: 10px;
+    }
+
+    > span {
+      top: 50%;
+      left: 50%;
+      color: #000000;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__body {
+    z-index: 3;
+    flex: 1 1 auto;
+    position: relative;
+  }
+
+  &__header {
+    top: 10px;
+    left: 10px;
+    height: 65px;
+    padding: 10px;
+    display: flex;
+    position: absolute;
+    border-radius: 8px;
+    width: calc(100% - 20px);
+    background-color: #ffffff;
+    box-shadow: 0 1px 2px #eaeaea;
+
+    &--avatar {
+      display: flex;
+      align-items: center;
+    }
+
+    &--text {
+      padding-left: 4px;
+    }
+
+    &--title {
+      font-size: 14px;
+      font-weight: bold;
+      line-height: 25px;
+    }
+
+    &--note {
+      color: #999999;
+      font-size: 10px;
+      line-height: 20px;
+    }
+  }
+
+  &__content {
+    padding: 85px 10px 10px;
+  }
+
+  &__editor {
+
+  }
+}
