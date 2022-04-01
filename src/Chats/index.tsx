@@ -2,8 +2,8 @@ import { useOutletContext } from 'react-router-dom';
 import { Component } from 'react';
 import '@scss/Views/Chats.scss';
 import { Avatar, Button, Empty } from 'antd';
-import { ChatsNav } from '@app/Chats/chatsNav';
 import { ListItem } from '@app/Team';
+import { ChatsNav } from '@app/Chats/chatsNav';
 import { ChatsEditor } from '@app/Chats/chatsEditor';
 
 interface State {
@@ -63,7 +63,7 @@ export class ChatsView extends Component<Props, State> {
           </div>
         </div>
         <div className="W-chats__content">W-W-chats__content</div>
-        {/*<ChatsEditor callback={this.onEditorChange} />*/}
+        <ChatsEditor callback={this.onEditorChange} />
       </div>
       <div className="W-chats__drawer">W-chats__body--drawer</div>
     </div>;

@@ -1,11 +1,12 @@
 import { Component } from 'react';
+import { ChatsBoxModelCallback } from './index';
 import { HolderOutlined } from '@ant-design/icons';
 
 interface Props {
   className?: string;
   keys: 'top' | 'right' | 'button' | 'left';
 
-  callback(value: number): void;
+  callback: ChatsBoxModelCallback
 }
 
 interface State {
@@ -32,6 +33,7 @@ export class ChatsBoxModelLine extends Component<Props, State> {
         if (this.list.move) {
           window.removeEventListener('mousemove', this.list.move);
           this.setState({ showLine: false });
+          this.props.callback('up');
           this.list.move = undefined;
         }
       },
@@ -45,7 +47,7 @@ export class ChatsBoxModelLine extends Component<Props, State> {
   }
 
   get getIconStyle() {
-    return this.keys === 'pageY' ? { transform: 'rotate(90deg)' } : undefined;
+    return this.keys === 'pageY' ? { transform: 'translate(-50%, -50%) rotate(90deg)' } : undefined;
   }
 
   get getStyle() {
@@ -73,10 +75,11 @@ export class ChatsBoxModelLine extends Component<Props, State> {
   onStartMove = (downEvent: any) => {
     const start = downEvent[this.keys];
     this.setState({ showLine: true });
+    this.props.callback('down', start);
     const boxFunc = this.boxFunc(['top', 'left'].includes(this.props.keys));
     this.list.move = (moveEvent: MouseEvent) => {
       moveEvent.preventDefault(); // 过滤选中文字
-      this.props.callback(boxFunc(start, moveEvent[this.keys]));
+      this.props.callback('move', boxFunc(start, moveEvent[this.keys]));
     };
     window.addEventListener('mousemove', this.list.move);
   };

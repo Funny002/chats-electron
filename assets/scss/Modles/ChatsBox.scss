@@ -1,0 +1,43 @@
+.M-chatsBox {
+  display: flex;
+
+  &.M-chatsBox--top,
+  &.M-chatsBox--button {
+    flex-direction: column;
+  }
+
+  &__line {
+    flex: 0 0 auto;
+    overflow: hidden;
+    position: relative;
+    background-color: #eeeeee;
+
+    &.pageY {
+      height: 1px;
+      cursor: s-resize;
+      transition: height .1s;
+
+      &:hover {
+        height: 10px;
+      }
+    }
+
+    &.pageX {
+      width: 1px;
+      cursor: e-resize;
+      transition: width .1s;
+
+      &:hover {
+        width: 10px;
+      }
+    }
+
+    > span {
+      top: 50%;
+      left: 50%;
+      color: #000000;
+      position: absolute;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

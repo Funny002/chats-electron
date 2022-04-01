@@ -1,17 +1,24 @@
 import { Component, createElement } from 'react';
 import { ChatsBoxModelLine } from '@module/ChatsBoxModel/line';
+import '@scss/Modles/ChatsBox.scss';
 
 interface Props {
   className?: string;
   lineClassName?: string;
   type: 'top' | 'right' | 'button' | 'left';
 
-  callback(value: number): void;
+  callback: ChatsBoxModelCallback
 }
+
+export type ChatsBoxModelCallback = (type: 'down' | 'move' | 'up', value?: number) => void
 
 export class ChatsBoxModel extends Component<Props> {
   constructor(props: Props) {
     super(props);
+  }
+
+  get typeState() {
+    return ['top', 'left'].includes(this.props.type);
   }
 
   get classes() {
@@ -19,23 +26,10 @@ export class ChatsBoxModel extends Component<Props> {
   }
 
   render() {
+    const chatsBoxModelLine = <ChatsBoxModelLine keys={this.props.type} key="chatsBoxModelLine" callback={this.props.callback} className={this.props.lineClassName} />;
+    const childList = [this.props.children, chatsBoxModelLine];
     return <div className={this.classes}>
-      {this.getHtmlDom()}
+      {this.typeState ? childList : [childList[1], childList[0]]}
     </div>;
-  }
-
-  getHtmlDom() {
-    const chatsBoxModelLine = createElement(ChatsBoxModelLine, { className: this.props.lineClassName, keys: this.props.type, callback: this.props.callback });
-    const children = createElement('div', { className: 'M-chatsBox__content' }, this.props.children);
-    switch (this.props.type) {
-      case 'top':
-      case 'left':
-        return [children, chatsBoxModelLine];
-      case 'right':
-      case 'button':
-        return [chatsBoxModelLine, children];
-      default:
-        return undefined;
-    }
   }
 }
