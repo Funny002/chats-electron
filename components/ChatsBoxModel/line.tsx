@@ -3,6 +3,7 @@ import { ChatsBoxModelCallback } from './index';
 import { HolderOutlined } from '@ant-design/icons';
 
 interface Props {
+  disabled?: boolean;
   className?: string;
   keys: 'top' | 'right' | 'button' | 'left';
 
@@ -73,6 +74,7 @@ export class ChatsBoxModelLine extends Component<Props, State> {
   };
 
   onStartMove = (downEvent: any) => {
+    if (this.props.disabled) return false; // 中断
     const start = downEvent[this.keys];
     this.setState({ showLine: true });
     this.props.callback('down', start);

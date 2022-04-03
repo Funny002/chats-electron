@@ -1,14 +1,10 @@
 import { Component } from 'react';
-import { ListItem } from '@app/Team';
 import { ChatsBoxModel, ChatsBoxModelCallback } from '@module/ChatsBoxModel';
 import { getStorage, setStorage } from '@utils/storage';
 import { limitSize } from '@utils/tools';
 
 interface Props {
-  data: ListItem[];
-  className?: string;
-
-  callback(value: string): void;
+  // callback(): void
 }
 
 interface State {
@@ -16,19 +12,19 @@ interface State {
   start: number;
 }
 
-export class ChatsNav extends Component<Props, State> {
+export class ChatsDrawer extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
       start: 0,
-      width: getStorage('Chats_nav_width') || 250,
+      width: getStorage('Chats_drawer_width') || 125,
     };
   }
 
   render() {
-    return <ChatsBoxModel className="W-chats__nav" type="left" callback={this.onCallback}>
-      <div className="W-chats__nav--body" style={{ width: this.state.width + 'px' }}>
-        ChatsNav {this.state.width}
+    return <ChatsBoxModel className="W-chats__drawer" type="right" callback={this.onCallback}>
+      <div className="W-chats__drawer--body" style={{ width: this.state.width + 'px' }}>
+        ChatsDrawer {this.state.width}
       </div>
     </ChatsBoxModel>;
   }
@@ -37,8 +33,8 @@ export class ChatsNav extends Component<Props, State> {
     if (type === 'down') {
       this.setState({ start: this.state.width });
     } else if (value) {
-      const width = limitSize(this.state.start + value, 60, 180);
-      setStorage('Chats_nav_width', width);
+      const width = limitSize(this.state.start + value, 150, 200);
+      setStorage('Chats_drawer_width', width);
       this.setState({ width });
     }
   };

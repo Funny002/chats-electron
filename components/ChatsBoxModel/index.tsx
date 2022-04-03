@@ -1,8 +1,9 @@
-import { Component, createElement } from 'react';
+import { Component } from 'react';
 import { ChatsBoxModelLine } from '@module/ChatsBoxModel/line';
 import '@scss/Modles/ChatsBox.scss';
 
 interface Props {
+  disabled?: boolean;
   className?: string;
   lineClassName?: string;
   type: 'top' | 'right' | 'button' | 'left';
@@ -22,12 +23,19 @@ export class ChatsBoxModel extends Component<Props> {
   }
 
   get classes() {
-    return ['M-chatsBox', 'M-chatsBox--' + this.props.type, this.props.className].join(' ');
+    const classes = ['M-chatsBox', 'M-chatsBox--' + this.props.type, this.props.className];
+    if (this.props.disabled) classes.push('M-chatsBox--disabled');
+    return classes.concat(this.props.className).join(' ');
   }
 
   render() {
-    const chatsBoxModelLine = <ChatsBoxModelLine keys={this.props.type} key="chatsBoxModelLine" callback={this.props.callback} className={this.props.lineClassName} />;
-    const childList = [this.props.children, chatsBoxModelLine];
+    const childList = [this.props.children, <ChatsBoxModelLine
+      keys={this.props.type}
+      key="chatsBoxModelLine"
+      disabled={this.props.disabled}
+      callback={this.props.callback}
+      className={this.props.lineClassName}
+    />];
     return <div className={this.classes}>
       {this.typeState ? childList : [childList[1], childList[0]]}
     </div>;

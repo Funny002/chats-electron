@@ -40,4 +40,16 @@
       transform: translate(-50%, -50%);
     }
   }
+
+  &.M-chatsBox--disabled .M-chatsBox__line {
+    cursor: default;
+
+    &.pageY:hover {
+      height: 1px !important;
+    }
+
+    &.pageX:hover {
+      width: 1px !important;
+    }
+  }
 }
