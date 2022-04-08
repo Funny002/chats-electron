@@ -2,22 +2,7 @@ import { Component, RefObject, createRef } from 'react';
 import { ChatsBoxModel, ChatsBoxModelCallback } from '@module/ChatsBoxModel';
 import { getStorage, setStorage } from '@utils/storage';
 import { limitSize } from '@utils/tools';
-import 'quill/dist/quill.bubble.css';
-import Quill from 'quill';
-
-declare module 'quill' {
-  interface Quill {
-    history: {
-      clear(): void;
-
-      undo(): void;
-
-      redo(): void;
-
-      cutoff(): void;
-    };
-  }
-}
+import { EditorModel } from '@module/EditorModel';
 
 interface Props {
   callback(): void
@@ -30,7 +15,6 @@ interface State {
 
 export class ChatsEditor extends Component<Props, State> {
   private readonly editorRef: RefObject<HTMLDivElement>;
-  private quillRef?: Quill;
 
   constructor(props: Props) {
     super(props);
@@ -43,11 +27,7 @@ export class ChatsEditor extends Component<Props, State> {
 
   render() {
     return <ChatsBoxModel className="W-chats__editor" type="button" callback={this.onCallback}>
-      <div className="W-chats__editor--body" style={{ height: this.state.height + 'px' }}>
-        <div className="W-chats__editor--menu">
-        </div>
-        <div className="W-chats__editor--context" ref={this.editorRef} />
-      </div>
+      <EditorModel style={{ height: this.state.height + 'px' }} placeholder="Enter to send. Shift + Enter to add new line" />
     </ChatsBoxModel>;
   }
 
@@ -56,17 +36,9 @@ export class ChatsEditor extends Component<Props, State> {
   };
 
   onMessageSend = () => {
-    console.log('onMessageSend ->>', this.quillRef?.getContents());
-    this.quillRef?.history.clear();
   };
 
   componentDidMount() {
-    /** 初始化
-     * font-family: Helvetica, Arial, sans-serif
-     */
-    this.quillRef = new Quill(this.editorRef.current as HTMLDivElement, {
-      placeholder: 'Enter to send. Shift + Enter to add new line',
-    });
   }
 
   onCallback: ChatsBoxModelCallback = (type, value) => {

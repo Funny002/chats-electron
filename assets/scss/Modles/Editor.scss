@@ -1,0 +1,85 @@
+.var-editor {
+  &__toolbar {
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dddddd;
+
+    &-item {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 4px;
+
+      > span {
+        padding: 7px;
+      }
+
+      & + & {
+        margin-left: 4px;
+      }
+
+      &:hover {
+        background-color: #eaeaea;
+      }
+    }
+  }
+
+  &__content {
+    overflow-y: auto;
+    position: relative;
+    overflow-x: hidden;
+    height: calc(100% - 39px);
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+
+      &-thumb {
+        width: 8px;
+        height: 8px;
+        border-radius: 8px;
+        background-color: #dddddd;
+
+        &:hover {
+          background-color: #aaaaaa;
+        }
+      }
+    }
+
+    > .ProseMirror {
+      height: 100%;
+      padding: 10px;
+      position: relative;
+      outline: transparent;
+      white-space: normal;
+      word-break: break-all;
+
+      * {
+        margin-top: 0;
+        margin-bottom: 0;
+        white-space: normal;
+        word-break: break-all;
+      }
+
+      img {
+        line-height: 0;
+        max-width: 100%;
+        display: inline-block;
+      }
+    }
+  }
+
+  &--blank .var-editor__content::before {
+    top: 10px;
+    left: 10px;
+    //left: 15px;
+    //right: 15px;
+    font-style: italic;
+    position: absolute;
+    pointer-events: none;
+    color: rgba(0, 0, 0, 0.6);
+    content: attr(data-placeholder);
+  }
+}
