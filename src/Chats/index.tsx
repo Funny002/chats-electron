@@ -57,7 +57,7 @@ export class ChatsView extends Component<Props, State> {
       <div className="W-chats__body">
         <div className="W-chats__header">
           <div className="W-chats__header--avatar">
-            <Avatar size={40} />
+            <Avatar size={40} shape="square" />
             <div className="W-chats__header--text">
               <div className="W-chats__header--title">Title</div>
               <div className="W-chats__header--note">Note</div>
