@@ -1,4 +1,4 @@
-import { Component, createRef, RefObject, useRef } from 'react';
+import { Component, createRef, RefObject } from 'react';
 import { EditorView } from 'prosemirror-view';
 import { SendOutlined, SmileOutlined, LinkOutlined, AudioOutlined, PictureOutlined } from '@ant-design/icons';
 import { EditorState } from 'prosemirror-state';
@@ -7,7 +7,6 @@ import { nodes } from 'prosemirror-schema-basic';
 import { keymap } from 'prosemirror-keymap';
 import { history, redo, undo } from 'prosemirror-history';
 import { Keymap, baseKeymap } from 'prosemirror-commands';
-import { Step } from 'prosemirror-transform';
 import 'prosemirror-view/style/prosemirror.css';
 import '@scss/Modles/Editor.scss';
 

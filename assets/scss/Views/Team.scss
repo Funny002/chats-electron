@@ -55,16 +55,6 @@
         overflow-x: hidden;
         height: calc(100% - 38px);
 
-        &::-webkit-scrollbar {
-          width: 6px;
-          height: 6px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          cursor: pointer;
-          border-radius: 6px;
-          background-color: #dddddd;
-        }
       }
     }
 

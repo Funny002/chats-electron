@@ -52,3 +52,19 @@
     -webkit-app-region: no-drag;
   }
 }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+
+  &-thumb {
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background-color: #dddddd;
+
+    &:hover {
+      background-color: #aaaaaa;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { useOutletContext } from 'react-router-dom';
 import { Component } from 'react';
 import '@scss/Views/Chats.scss';
 import { Avatar, Button, Empty, Badge } from 'antd';
-import { VideoCameraOutlined, WhatsAppOutlined, NotificationOutlined, SettingOutlined } from '@ant-design/icons';
+import { VideoCameraOutlined, WhatsAppOutlined, NotificationOutlined, SettingOutlined, FolderOutlined } from '@ant-design/icons';
 import { ListItem } from '@app/Team';
 import { ChatsNav } from '@app/Chats/chatsNav';
 import { ChatsEditor } from '@app/Chats/chatsEditor';
@@ -72,6 +72,10 @@ export class ChatsView extends Component<Props, State> {
 
           <Badge count={0} size="small" offset={[-12, 10]} className="W-chats__header--btn">
             <VideoCameraOutlined />
+          </Badge>
+
+          <Badge count={0} size="small" offset={[-12, 10]} className="W-chats__header--btn">
+            <FolderOutlined />
           </Badge>
 
           <Badge count={0} size="small" offset={[-12, 10]} className="W-chats__header--btn">

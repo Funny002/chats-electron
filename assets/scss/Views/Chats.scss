@@ -5,13 +5,75 @@
   &__nav {
     flex: 0 0 auto;
     min-width: 61px;
-    max-width: 181px;
+    max-width: 201px;
     user-select: none;
     background-color: #ffffff;
 
     &--body {
       overflow-y: auto;
       overflow-x: hidden;
+
+      &.is-avatar .W-chats__nav--box {
+        display: none;
+      }
+
+      &.is-message .W-chats__nav--message {
+        display: none;
+      }
+
+      &.is-date .W-chats__nav--date {
+        display: none;
+      }
+    }
+
+    &--item {
+      cursor: pointer;
+      padding: 10px 0 10px 10px;
+
+      &:hover {
+        background-color: #eaeaea;
+      }
+    }
+
+    &--avatar {
+      width: 40px;
+      flex: 0 0 auto;
+    }
+
+    &--box {
+      flex: 1 1 auto;
+      padding: 0 10px;
+      white-space: nowrap;
+      width: calc(100% - 40px);
+    }
+
+    &--title {
+      width: 100%;
+      display: flex;
+      font-size: 16px;
+      line-height: 22px;
+      font-weight: bold;
+    }
+
+    &--name {
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    &--date {
+      flex: 0 0 auto;
+      color: #9a9a9a;
+      font-size: 12px;
+      margin-left: 5px;
+      font-weight: normal;
+    }
+
+    &--message {
+      color: #9a9a9a;
+      overflow: hidden;
+      line-height: 16px;
+      text-overflow: ellipsis;
     }
   }
 
@@ -105,22 +167,6 @@
 
     &--context {
       height: calc(100% - 31px) !important;
-
-      > .ql-editor::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-
-        &-thumb {
-          width: 8px;
-          height: 8px;
-          border-radius: 8px;
-          background-color: #dddddd;
-
-          &:hover {
-            background-color: #aaaaaa;
-          }
-        }
-      }
     }
   }
 

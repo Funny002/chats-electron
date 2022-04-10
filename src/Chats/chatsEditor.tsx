@@ -31,16 +31,6 @@ export class ChatsEditor extends Component<Props, State> {
     </ChatsBoxModel>;
   }
 
-  onKeyPress = (event: any) => {
-    console.log(event);
-  };
-
-  onMessageSend = () => {
-  };
-
-  componentDidMount() {
-  }
-
   onCallback: ChatsBoxModelCallback = (type, value) => {
     if (type === 'down') {
       this.setState({ start: this.state.height });

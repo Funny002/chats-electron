@@ -32,22 +32,6 @@
     overflow-x: hidden;
     height: calc(100% - 39px);
 
-    &::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-
-      &-thumb {
-        width: 8px;
-        height: 8px;
-        border-radius: 8px;
-        background-color: #dddddd;
-
-        &:hover {
-          background-color: #aaaaaa;
-        }
-      }
-    }
-
     > .ProseMirror {
       height: 100%;
       padding: 10px;
