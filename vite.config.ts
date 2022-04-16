@@ -10,12 +10,12 @@ export default defineConfig({
   server: {
     port: port,
     proxy: {
-      '/api': {
+      '/baseApi': {
         changeOrigin: true,
         target: 'http://127.0.0.1:4564',
         rewrite: path => {
-          console.log(path.replace(/^\/api/, ''));
-          return path.replace(/^\/api/, '');
+          console.log(path.replace(/^\/baseApi/, ''));
+          return path.replace(/^\/baseApi/, '');
         },
       },
     },

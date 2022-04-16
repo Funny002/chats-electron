@@ -4,6 +4,7 @@ import '@scss/Views/Sign.scss';
 import { Button, Checkbox, Form, FormInstance, Input, Tabs, Typography, ConfigProvider } from 'antd';
 import { MailOutlined, LockOutlined, KeyOutlined, MinusOutlined, CloseOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { ApiLogin } from '@api/auth';
 
 interface State {
   memory: boolean;
@@ -33,7 +34,10 @@ export class Sign extends Component<{}, State> {
     setBoxSize({ width: '400px', height: '320px' });
   }
 
-  onTabsChange = (key: string) => this.setState({ tabs: key as 'in' | 'up' });
+  onTabsChange = (key: string) => {
+    this.formRef.current?.resetFields();
+    this.setState({ tabs: key as 'in' | 'up' });
+  };
 
   get formData(): FormData | {} {
     return this.formRef.current?.getFieldsValue() || {};
@@ -67,10 +71,10 @@ export class Sign extends Component<{}, State> {
         </Tabs>
 
         <Form className="app-sign__body" ref={this.formRef}>
-          <Form.Item name="email">
+          <Form.Item name="email" rules={[{ required: true, message: '邮箱格式错误', pattern: /^\w+@\w+\.\w+$/ }]}>
             <Input placeholder="邮箱" prefix={<MailOutlined />} />
           </Form.Item>
-          <Form.Item name="pass">
+          <Form.Item name="pass" rules={[{ required: true, message: '密码格式错误', pattern: /^\w{6}\w+$/ }]}>
             <Input.Password placeholder="密码" prefix={<LockOutlined />} />
           </Form.Item>
           {this.state.tabs === 'up' ?
@@ -103,7 +107,26 @@ export class Sign extends Component<{}, State> {
     console.log('sign -> getCodeButton');
   };
 
+  onSignIn = () => {
+    this.formRef.current?.validateFields().then(({ email, pass }) => {
+      const { memory, authSign } = this.state;
+      // console.log({ email, pass });
+      ApiLogin(email, pass).then(res => {
+        console.log(res);
+      });
+    });
+    // const { email, pass } = this.formData;
+    // ApiLogin(email, pass).then(res => {
+    //   console.log(res);
+    // });
+    // console.log('sign -> onSignIn', { ApiLogin, memory, authSign });
+  };
+
   onSignButton = () => {
+    if (this.state.tabs === 'in') {
+      return this.onSignIn();
+    }
+    console.log(this.state);
     console.log('sign -> onSignButton');
   };
 }

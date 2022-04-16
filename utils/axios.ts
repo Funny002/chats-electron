@@ -1,6 +1,5 @@
 import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getStorage, setStorage } from './storage';
-import { ApiGetCookie } from '@api/auth';
 import { mergeConfig } from './object';
 
 const useTools = <T = AxiosRequestConfig | AxiosResponse>(axios: AxiosInstance, types: 'request' | 'response', onFulfilled: (config: T) => T | Promise<T>, onRejected: (error: any) => any | Promise<any>) => {
@@ -48,7 +47,7 @@ interface CustomConfig {
   __retry_max: number; // 重试最大数
 }
 
-const csrfTokenName = 'csrf-token';
+export const csrfTokenName = 'csrf-token';
 
 const requestFulfilled = async (config: AxiosRequestConfig & CustomConfig) => {
   mergeConfig(config, { __retry_max: 3, __retry_count: 0, __retry_time: 1000 });
@@ -123,10 +122,12 @@ export const axios = Axios.create({
   responseType: 'json',
 });
 
+export const ApiGetCookie = () => Axios.get('/baseApi/cookie');
+
 // 请求拦截器
 export const axiosRequest = useTools(axios, 'request', requestFulfilled, requestRejected);
-// 响应拦截器
 
+// 响应拦截器
 export const axiosResponse = useTools(axios, 'response', responseFulfilled, responseRejected);
 
 export default axios;

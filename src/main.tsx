@@ -12,7 +12,13 @@ import { Sign } from '@app/Sign';
 import { Home } from '@app/Home';
 import { Team } from '@app/Team';
 import { User } from '@app/User';
-
+import { removeCookie } from '@utils/cookie';
+import { removeStorage } from '@utils/storage';
+import { csrfTokenName } from '@utils/axios';
+//
+removeStorage(csrfTokenName);
+removeCookie('_csrf', '/');
+//
 React.render(
   (<ConfigProvider locale={zh_CN} space={{ size: 'small' }} componentSize="small">
     <Router.BrowserRouter>

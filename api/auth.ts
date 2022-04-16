@@ -1,8 +1,8 @@
 import axios from '@utils/axios';
 
-const baseApi = '/api/auth/';
+const baseApi = '/baseApi/auth/';
 
-export const ApiGetCookie = () => axios.get('/api/cookie');
+export { ApiGetCookie } from '@utils/axios';
 
 export const ApiSendEmail = (email: string) => axios.post(baseApi + 'sendEmail', { email });
 
