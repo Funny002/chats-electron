@@ -1,16 +1,17 @@
 import { Component, createRef, RefObject } from 'react';
 import { setBoxSize } from '@utils/tools';
 import '@scss/Views/Sign.scss';
-import { Button, Checkbox, Form, FormInstance, Input, Tabs, Typography, ConfigProvider } from 'antd';
+import { Button, Checkbox, Form, FormInstance, Input, Tabs, Typography, ConfigProvider, message } from 'antd';
 import { MailOutlined, LockOutlined, KeyOutlined, MinusOutlined, CloseOutlined } from '@ant-design/icons';
 import { CheckboxChangeEvent } from 'antd/es/checkbox';
-import { ApiLogin } from '@api/auth';
+import { ApiLogin, ApiRegister, ApiSendEmail } from '@api/auth';
+import { getStorage, removeStorage, setStorage } from '@utils/storage';
 
 interface State {
   memory: boolean;
   tabs: 'in' | 'up';
   authSign: boolean;
-  codeLoading: boolean
+  codeLoading: number
 }
 
 interface FormData {
@@ -18,6 +19,18 @@ interface FormData {
   email: string;
   code?: string;
 }
+
+const onSetUserInfo = (data: any, email?: string, pass?: string, memory?: boolean, authSign?: boolean) => {
+  setStorage('user-info', data.info);
+  setStorage('user-token', data.token);
+  if (memory) setStorage('sign-memory', { email, pass, authSign }, undefined, true);
+  //
+  location.reload();
+};
+
+export const removeUserInfo = () => {
+  removeStorage('user-info','user-token','sign-memory')
+};
 
 export class Sign extends Component<{}, State> {
   private readonly formRef: RefObject<FormInstance>;
@@ -27,8 +40,8 @@ export class Sign extends Component<{}, State> {
     this.state = {
       tabs: 'in',
       memory: false,
+      codeLoading: 0,
       authSign: false,
-      codeLoading: false,
     };
     this.formRef = createRef<FormInstance>();
     setBoxSize({ width: '400px', height: '320px' });
@@ -36,11 +49,16 @@ export class Sign extends Component<{}, State> {
 
   onTabsChange = (key: string) => {
     this.formRef.current?.resetFields();
-    this.setState({ tabs: key as 'in' | 'up' });
+    this.setState({ tabs: key as 'in' | 'up', memory: false, authSign: false });
   };
 
   get formData(): FormData | {} {
     return this.formRef.current?.getFieldsValue() || {};
+  }
+
+  get CodeText() {
+    const count = this.state.codeLoading;
+    return (count !== 0 ? `(${count}) ` : '') + '获取验证码';
   }
 
   handleClick = (types: 'quit' | 'mini') => {
@@ -79,12 +97,12 @@ export class Sign extends Component<{}, State> {
           </Form.Item>
           {this.state.tabs === 'up' ?
             <Form.Item name="code">
-              <Input.Search placeholder="验证码" prefix={<KeyOutlined />} enterButton="获取验证码" onSearch={this.getCodeButton} />
+              <Input.Search placeholder="验证码" loading={this.state.codeLoading !== 0} prefix={<KeyOutlined />} enterButton={this.CodeText} onSearch={this.getCodeButton} />
             </Form.Item>
             : <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
               <Checkbox name="memory" checked={this.state.memory} onChange={this.onCheckboxChange}>记住密码</Checkbox>
               <Checkbox name="authSign" checked={this.state.authSign} onChange={this.onCheckboxChange}>自动登录</Checkbox>
-              <Button type="text">忘记密码</Button>
+              <Button type="text" onClick={this.onRePass}>忘记密码</Button>
             </div>
           }
           <Button onClick={this.onSignButton} type="primary" block>{this.state.tabs === 'in' ? '登录' : '注册'}</Button>
@@ -92,6 +110,24 @@ export class Sign extends Component<{}, State> {
       </div>
     </ConfigProvider>;
   }
+
+  componentDidMount() {
+    const signMemory = getStorage('sign-memory');
+    if (signMemory) {
+      const { authSign, email, pass } = signMemory;
+      this.setState({ authSign, memory: true });
+      this.formRef.current?.setFieldsValue({ email, pass });
+      if (authSign) this.onAuthSign();
+    }
+  }
+
+  onAuthSign() {
+    console.log('onAuthSign ->>');
+  }
+
+  onRePass = () => {
+    message.warn('正在施工中...');
+  };
 
   onCheckboxChange = (event: CheckboxChangeEvent) => {
     const { name, checked } = event.target;
@@ -103,30 +139,51 @@ export class Sign extends Component<{}, State> {
     this.setState({ [name as string]: checked } as { [key in 'memory' | 'authSign']: boolean });
   };
 
-  getCodeButton = () => {
-    console.log('sign -> getCodeButton');
-  };
+  onCodeText() {
+    setTimeout(() => {
+      this.setState({ codeLoading: this.state.codeLoading - 1 });
+      if (this.state.codeLoading > 0) {
+        this.onCodeText();
+      }
+    }, 1000);
+  }
 
-  onSignIn = () => {
-    this.formRef.current?.validateFields().then(({ email, pass }) => {
-      const { memory, authSign } = this.state;
-      // console.log({ email, pass });
-      ApiLogin(email, pass).then(res => {
-        console.log(res);
+  getCodeButton = () => {
+    this.formRef.current?.validateFields(['email']).then(({ email }) => {
+      ApiSendEmail(email).then(({ data: res }) => {
+        if (res.code === 0) {
+          this.setState({ codeLoading: 60 });
+          message.success('邮件发送成功。');
+        } else {
+          this.setState({ codeLoading: 30 });
+          message.error(res.msg);
+        }
+        this.onCodeText();
       });
     });
-    // const { email, pass } = this.formData;
-    // ApiLogin(email, pass).then(res => {
-    //   console.log(res);
-    // });
-    // console.log('sign -> onSignIn', { ApiLogin, memory, authSign });
+  };
+
+  onSignIn(email: string, pass: string) {
+    const { memory, authSign } = this.state;
+    ApiLogin(email, pass).then(({ data: res }) => {
+      if (res.code === 0) {
+        onSetUserInfo(res.data, email, pass, memory, authSign);
+      } else {
+        message.error(res.msg);
+      }
+    });
   };
 
   onSignButton = () => {
-    if (this.state.tabs === 'in') {
-      return this.onSignIn();
-    }
-    console.log(this.state);
-    console.log('sign -> onSignButton');
+    this.formRef.current?.validateFields().then(({ email, pass, code }) => {
+      if (this.state.tabs === 'in') return this.onSignIn(email, pass);
+      ApiRegister(email, pass, code).then(({ data: res }) => {
+        if (res.code === 0) {
+          onSetUserInfo(res.data);
+        } else {
+          message.error(res.msg);
+        }
+      });
+    });
   };
 }

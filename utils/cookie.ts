@@ -24,8 +24,7 @@ export const setCookie = (name: string, value: any, expires?: string | number | 
   if (domain !== undefined) data.push('domain=' + domain);
   if (path !== undefined) data.push('path=' + path);
   if (secure !== undefined) data.push('secure');
-  // document.cookie = data.join('; ').trim();
-  console.log(data.join('; '));
+  document.cookie = data.join('; ').trim();
   return true;
 };
 
