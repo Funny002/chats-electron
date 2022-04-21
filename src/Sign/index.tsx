@@ -28,10 +28,6 @@ const onSetUserInfo = (data: any, email?: string, pass?: string, memory?: boolea
   location.reload();
 };
 
-export const removeUserInfo = () => {
-  removeStorage('user-info','user-token','sign-memory')
-};
-
 export class Sign extends Component<{}, State> {
   private readonly formRef: RefObject<FormInstance>;
 

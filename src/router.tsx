@@ -11,30 +11,43 @@ import { Team } from '@app/Team';
 import { User } from '@app/User';
 
 function BeforeRoutes() {
-  const location = useLocation();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [state, setState] = useState(false);
 
   useEffect(() => {
-    const func = async () => {
-      const token = getStorage('user-token');
-      if (location.pathname !== '/login') {
-        if (!token) {
+    const token = getStorage('user-token');
+
+    if (!token) setState(false);
+
+    if (!state) {
+      if ('/login' !== pathname) {
+        if (token) {
+          (async function() {
+            try {
+              const { data: { data } } = await ApiHasToken(token);
+              if (!data) {
+                removeStorage('user-info', 'user-token');
+
+                navigate({ pathname: '/login' });
+              } else {
+                setState(true);
+              }
+            } catch (e: any) {
+              if (e.response.status === 401) {
+                removeStorage('user-info', 'user-token');
+
+                navigate({ pathname: '/login' });
+              }
+            }
+          })();
+        } else {
           navigate({ pathname: '/login' });
-        } else if (!state) {
-          const { data: res } = await ApiHasToken(token);
-          if (!res.data) {
-            removeStorage('user-info', 'user-token', 'sign-memory');
-            navigate({ pathname: '/login' });
-          } else {
-            setState(true);
-          }
         }
       } else if (token) {
         navigate({ pathname: '/home' });
       }
-    };
-    func();
+    }
   });
 
   return useRoutes([{

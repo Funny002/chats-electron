@@ -4,6 +4,7 @@ import { LoginOutlined, GithubOutlined, UserOutlined, HomeOutlined, CommentOutli
 import { Avatar } from 'antd';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { removeStorage } from '@utils/storage';
 
 const listData: { [key: string]: any } = {
   home: HomeOutlined,
@@ -29,11 +30,13 @@ export const HomeNav = () => {
   };
 
   const onLogout = () => {
-    console.log('onLogout');
+    removeStorage('user-token');
+
+    location.reload();
   };
 
   const onJumpClick = () => {
-    console.log('onJumpClick');
+    window.open('https://github.com/funny002/chats-electron', '_blank');
   };
 
   return <div className="app-home">

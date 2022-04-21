@@ -64,6 +64,10 @@ const requestFulfilled = async (config: AxiosRequestConfig & CustomConfig) => {
 
   config.headers[csrfTokenName] = csrfToken;
 
+  const token = getStorage('user-token');
+
+  if (token) config.headers['Authorization'] = 'bearer ' + token;
+
   return config;
 };
 
@@ -73,8 +77,10 @@ const requestRejected = (error: any) => {
 };
 
 /** 响应拦截器 */
-declare enum StatusCode {
-  csrfToken = 403
+enum StatusCode {
+  Unauthorized = 401,
+  CsrfToken = 403,
+  RequestLimits = 429,
 }
 
 const responseFulfilled = (config: AxiosResponse) => {
@@ -83,32 +89,27 @@ const responseFulfilled = (config: AxiosResponse) => {
 };
 
 const responseRejected = (error: any) => {
-  if (error.response) {
-    console.log(error.response.status, StatusCode.csrfToken);
-    if (error.response.status === StatusCode.csrfToken) {
-      console.log('StatusCode.csrfToken ->>', StatusCode.csrfToken);
-      return Promise.reject(error);
-    }
-    console.log(error.response.data);
-    console.log(error.response.status);
-    console.log(error.response.headers);
-  } else if (error.request) {
-    console.log(error.request);
-  } else {
-    console.log('Error', error.message);
+  const { message, response } = error;
+
+  console.log('responseRejected ->>', { message, response });
+
+  const status = response.status;
+
+  if ([4].includes(status)) {
+    const { url, __retry_max, __retry_count, __retry_time } = error.config;
+
+    if (__retry_max < __retry_count || isNaN(__retry_count)) return Promise.reject(error);
+
+    error.config.__retry_count = __retry_count + 1;
+
+    return new Promise(resolve => setTimeout(resolve, __retry_time)).then(() => {
+      console.log('[%s]\t[retry: %s\s/\s%s]\t href: %s', new Date(), __retry_count, __retry_max, url);
+
+      return axios(error.config);
+    });
   }
 
-  /** 在上面写业务逻辑 */
-  const { url, __retry_max, __retry_count, __retry_time } = error.config;
-
-  if (__retry_max < __retry_count) return Promise.reject(error);
-
-  error.config.__retry_count = __retry_count + 1;
-
-  return new Promise(resolve => setTimeout(resolve, __retry_time)).then(() => {
-    console.log('[%s]\t[retry: %s\s/\s%s]\t href: %s', new Date(), __retry_count, __retry_max, url);
-    return axios(error.config);
-  });
+  return Promise.reject(error);
 };
 
 /** 实例 */
