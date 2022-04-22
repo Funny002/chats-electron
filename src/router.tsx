@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRoutes, BrowserRouter, useLocation, useNavigate } from 'react-router-dom';
-import { getStorage, removeStorage } from '@utils/storage';
+import { getStorage, removeStorage, setStorage } from '@utils/storage';
 import { ApiHasToken } from '@api/auth';
 import { HomeNav } from '@app/HomeNav';
 import { Setting } from '@app/Setting';

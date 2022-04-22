@@ -4,6 +4,8 @@ const baseApi = '/baseApi/auth/';
 
 export { ApiGetCookie } from '@utils/axios';
 
+export const ApiLogout = () => axios.post(baseApi + 'logout');
+
 export const ApiHasToken = (token: string) => axios.post(baseApi + 'hasToken', { token });
 
 export const ApiSendEmail = (email: string) => axios.post(baseApi + 'sendEmail', { email });
